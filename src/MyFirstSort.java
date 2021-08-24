@@ -18,6 +18,7 @@ public class MyFirstSort {
             values[k] = values[max_index];
             values[max_index] = temp;
 
+            System.out.println("Bytter plass " + k + " med plass " + max_index);
             System.out.println("Arrayet etter ombytting");
             for (int i = 0; i < values.length; ++i) {
                 System.out.print(values[i] + ", ");
