@@ -13,9 +13,52 @@ public class BubbleSort2
         System.out.println(Arrays.toString(values));
 
 
+        int index1 = binarySearch(values, 9);
+        System.out.println("Fant tallet 9 på " + index1);
+
+
+        int index2 = binarySearch(values, 11);
+        System.out.println("Fant tallet 11 på " + index2);
+
+        int index3 = binarySearchRecursive(values, 9,
+                0, values.length-1);
+        System.out.println("Fant tallet 9 rekursivt på " + index3);
+
+        int index4 = binarySearchRecursive(values, 11,
+                0, values.length-1);
+        System.out.println("Fant tallet 11 rekursivt på " + index4);
     }
 
-    public static void binarySearch(int[] values, int search_value) {
+    public static int binarySearchRecursive(int[] values,
+                                             int search_value,
+                                             int l,
+                                             int r) {
+        int m = (l+r) / 2;
+
+        if (l > r) {
+            return -l;
+        }
+
+        if (values[m] > search_value) {
+            r = m-1;
+            return binarySearchRecursive(values, search_value, l, r);
+        }
+        else if (values[m] < search_value) {
+            l = m+1;
+            return binarySearchRecursive(values, search_value, l, r);
+        }
+        else if (values[m] == search_value) {
+            return m;
+        }
+        else {
+            //Something wrong
+            System.out.println("Something wrong!, NaN etc.");
+            return -m;
+        }
+    }
+
+
+    public static int binarySearch(int[] values, int search_value) {
         //Intervaller:
         // Halvåpent intervall:
         // [8, 10) => 8 9 => vanlig for-løkke: for(int i=8; i<10; ++i)
@@ -55,6 +98,37 @@ public class BubbleSort2
         //[ a 2 5 7 9 f g h i j ]
         //[ 0 1 2 3 4 5 6 7 8 9 ]
 
+        //Søk i intervallet [l, r]:
+        int l = 0;
+        int r = values.length - 1;
+        int m = (l+r)/2;
+
+        while (l <= r) {
+            System.out.println("Sjekker intervallet [" + l + ", " + r + "]");
+            m = (l+r)/2;
+            //Hvis midt-verdien er større,
+            //gå til venstre
+            //[ l       m         r ]
+            //[ a b c d 9 f g h i j ]
+            if (values[m] > search_value) {
+                //[ l     r             ]
+                //[ a b c d 9 f g h i j ]
+                r = m - 1;
+            } else if (values[m] < search_value) {
+                //[           l       r ]
+                //[ a b c d 9 f g h i j ]
+                l = m + 1;
+            } else if (values[m] == search_value) {
+                //Vi har funnet plassen til verdien.
+                //eller NaN (f.eks. 9/0)
+                return m;
+            } else {
+                System.out.println("Something wrong!");
+            }
+        }
+
+        //Fant ikke verdien...
+        return -l;
     }
 
     /**
